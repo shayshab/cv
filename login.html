@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Portfolio Access</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-box h2 {
+            margin-bottom: 30px;
+            color: #3e64ff;
+        }
+        .access-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e6e6e6;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .access-button {
+            background: #3e64ff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .access-button:hover {
+            background: #2848c8;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Portfolio Access</h2>
+            <p>Please enter the access code to view the portfolio</p>
+            <input type="password" id="accessCode" class="access-input" placeholder="Enter access code">
+            <button onclick="checkAccess()" class="access-button">Access Portfolio</button>
+            <p id="errorMessage" class="error-message">Invalid access code</p>
+        </div>
+    </div>
+
+    <script>
+        function checkAccess() {
+            const accessCode = document.getElementById('accessCode').value.trim();
+            const validCode = '2024HR'; // Your access code
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Hide any previous error message
+            errorMessage.style.display = 'none';
+            
+            // Basic validation
+            if (!accessCode) {
+                errorMessage.textContent = 'Please enter an access code';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            if (accessCode === validCode) {
+                // Store access granted status
+                sessionStorage.setItem('portfolioAccess', 'granted');
+                // Redirect to index.html
+                window.location.href = 'index.html';
+            } else {
+                errorMessage.textContent = 'Invalid access code';
+                errorMessage.style.display = 'block';
+                // Clear the input for security
+                document.getElementById('accessCode').value = '';
+            }
+        }
+
+        // Allow Enter key to submit and clear error on new input
+        const accessInput = document.getElementById('accessCode');
+        
+        accessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAccess();
+            }
+        });
+
+        accessInput.addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+    </script>
+</body>
+</html> 
